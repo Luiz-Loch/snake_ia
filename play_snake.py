@@ -1,4 +1,4 @@
-FOR_NOTEBOOK: bool = True
+FOR_NOTEBOOK: bool = False
 FPS: int = 5
 
 import pygame
@@ -213,6 +213,8 @@ def collect_human_play(memory: ReplayMemory) -> None:
 if __name__ == "__main__":
     # play()
     replay_memory: ReplayMemory = ReplayMemory(100_000)
+    collect_human_play(replay_memory)
+    collect_human_play(replay_memory)
     collect_human_play(replay_memory)
 
     # Salvar memória em um arquivo

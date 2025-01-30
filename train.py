@@ -6,7 +6,7 @@ from training import DQNAgent
 from training import ReplayMemory
 
 # Configurações do treinamento
-EPISODES: int = 10  # Número de episódios de treinamento
+EPISODES: int = 300  # Número de episódios de treinamento
 BATCH_SIZE: int = 16  # Tamanho do lote para atualização
 GAMMA: float = 0.95  # Fator de desconto para o Q-learning
 EPSILON_START: float = 1.0  # Taxa de exploração inicial
@@ -23,7 +23,7 @@ def train():
 
     # Tente carregar a memória salva, ou crie uma nova se não existir
     try:
-        with open("./replay_memory.pkl", "rb") as f:
+        with open("replay_memory.pkl", "rb") as f:
             replay_memory = pickle.load(f)
         print(f"Replay Memory carregada com {len(replay_memory)} experiências.")
     except FileNotFoundError:
@@ -45,7 +45,8 @@ def train():
             total_reward += reward
 
             # Armazena a experiência
-            replay_memory.add(state, action, reward, next_state, done)
+            if episode > 10:
+                replay_memory.add(state, action, reward, next_state, done)
 
             # Treina o agente
             agent.train(replay_memory, BATCH_SIZE, GAMMA)
@@ -61,14 +62,17 @@ def train():
         # Decai a taxa de exploração
         epsilon = max(EPSILON_MIN, epsilon * EPSILON_DECAY)
 
-        rewards.append(total_reward)
+        rewards.append([episode, total_reward])
         print(f"Episode {episode + 1}/{EPISODES}, Total Reward: {total_reward}, Epsilon: {epsilon:.2f}")
 
         # Salvar o modelo periodicamente
-        # if (episode + 1) % 100 == 0:
-        #     agent.model.save(f"./models/snake_model_{episode + 1:03}.h5")
+        if (episode + 1) % 10 == 0:
+            agent.model.save(f"./models/snake_model_{episode + 1:03}.keras")
 
-        agent.model.save(f"./models/snake_model_{episode + 1:03}.keras")
+        # agent.model.save(f"./models/snake_model_{episode + 1:03}.keras")
+
+        with open("./rewards.txt", "w", encoding="UTF-8") as f:
+            f.write(str(rewards))
 
     # Visualizar o progresso após o treinamento
     visualize(rewards)
@@ -81,7 +85,7 @@ def visualize(rewards):
     plt.xlabel("Episódios")
     plt.ylabel("Recompensa Total")
     plt.show()
-    plt.savefig("./figures/recompensa.png", dpi=300)
+    plt.savefig("./recompensa.png", dpi=300)
 
 
 if __name__ == "__main__":
