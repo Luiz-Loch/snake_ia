@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pickle
+import time
 from snake_game import SnakeGame
 from training import DQNAgent
 from training import ReplayMemory
@@ -31,9 +32,10 @@ def train():
         print("Replay Memory não encontrada, inicializando vazia.")
 
     epsilon: float = EPSILON_START  # Inicia com exploração máxima
-    rewards: list = []  # Para armazenar as recompensas por episódio
+    rewards: list = [["Episode", "Reward", "Time"]]  # Para armazenar as recompensas por episódio
 
     for episode in range(EPISODES):
+        start_time: float = time.time()
         state: np.ndarray = game.reset()
         done: bool = False
         total_reward: int = 0
@@ -62,7 +64,8 @@ def train():
         # Decai a taxa de exploração
         epsilon = max(EPSILON_MIN, epsilon * EPSILON_DECAY)
 
-        rewards.append([episode, total_reward])
+        time_elapsed: float = time.time() - start_time
+        rewards.append([episode, total_reward, time_elapsed])
         print(f"Episode {episode + 1}/{EPISODES}, Total Reward: {total_reward}, Epsilon: {epsilon:.2f}")
 
         # Salvar o modelo periodicamente
@@ -71,7 +74,7 @@ def train():
 
         # agent.model.save(f"./models/snake_model_{episode + 1:03}.keras")
 
-        with open("./rewards.txt", "w", encoding="UTF-8") as f:
+        with open("./models/rewards.txt", "w", encoding="UTF-8") as f:
             f.write(str(rewards))
 
     # Visualizar o progresso após o treinamento
@@ -85,7 +88,7 @@ def visualize(rewards):
     plt.xlabel("Episódios")
     plt.ylabel("Recompensa Total")
     plt.show()
-    plt.savefig("./recompensa.png", dpi=300)
+    plt.savefig("./models/reward.png", dpi=300)
 
 
 if __name__ == "__main__":
