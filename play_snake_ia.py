@@ -5,7 +5,7 @@ import pygame
 import numpy as np
 
 # Configurações
-MODEL_PATH: str = "./training/models/snake_model_001.keras"  # Caminho do modelo salvo
+MODEL_PATH: str = "./models/snake_model_150.keras"  # Caminho do modelo salvo
 
 def play():
     # Inicializar o jogo
@@ -34,7 +34,7 @@ def play():
         next_state, reward, done = game.step(action)
 
         game.render(screen)
-        clock.tick(50) # 5 vezes mais rápido que o jogo normal
+        clock.tick(10) # vezes mais rápido que o jogo normal
 
         # Atualizar o estado atual
         state = next_state

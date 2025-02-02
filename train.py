@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import pickle
 import time
@@ -76,19 +75,6 @@ def train():
 
         with open("./models/rewards.txt", "w", encoding="UTF-8") as f:
             f.write(str(rewards))
-
-    # Visualizar o progresso após o treinamento
-    visualize(rewards)
-
-
-def visualize(rewards):
-    # Visualizar a recompensa por episódio
-    plt.plot(rewards)
-    plt.title("Recompensa por Episódio")
-    plt.xlabel("Episódios")
-    plt.ylabel("Recompensa Total")
-    plt.show()
-    plt.savefig("./models/reward.png", dpi=300)
 
 
 if __name__ == "__main__":

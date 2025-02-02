@@ -94,7 +94,7 @@ class SnakeGame:
             reward: int = -50
         elif distance_food_after < distance_food_before:
             # Se ficou mais próximo da comida: +2 ponto
-            reward: int = 2
+            reward: int = 1
         elif distance_food_after >= distance_food_before:
             # Se ficou na mesma distância ou se afastou: −1 pontos
             reward: int = -1

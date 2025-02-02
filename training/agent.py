@@ -49,36 +49,3 @@ class DQNAgent:
             target_q = self.model.predict(state[np.newaxis], verbose=0)
             target_q[0] = target
             self.model.fit(state[np.newaxis], target_q, epochs=1, verbose=0)
-
-
-if __name__ == '__main__':
-    pass
-    # game: snake_game.SnakeGame = snake_game.SnakeGame()
-    # state_size: int = game.get_state().shape[0]  # Tamanho do estado
-    #
-    # agent: DQNAgent = DQNAgent(state_size)
-    # replay_memory: ReplayMemory = ReplayMemory(2000)  # Tamanho da memória de replay
-    # epsilon: float = 1.0  # Inicia com exploração máxima
-    # rewards: list = []  # Para armazenar as recompensas por episódio
-    #
-    # state: np.ndarray = game.reset()
-    # done: bool = False
-    # total_reward: int = 0
-    #
-    # while not done:
-    #     action = agent.act(state, epsilon)
-    #     next_state, reward, done = game.step(action)
-    #     total_reward += reward
-    #
-    #     # Armazena a experiência
-    #     replay_memory.add(state, action, reward, next_state, done)
-    #
-    #     # Treina o agente
-    #     agent.train(replay_memory, 32, 0.99)
-    #
-    #     state = next_state
-    #
-    # # Decai a taxa de exploração
-    # epsilon = max(0.1, epsilon * 0.995)
-    #
-    # rewards.append(total_reward)
