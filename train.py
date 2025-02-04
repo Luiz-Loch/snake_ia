@@ -69,11 +69,11 @@ def train():
 
         # Salvar o modelo periodicamente
         if (episode + 1) % 10 == 0:
-            agent.model.save(f"./models/snake_model_{episode + 1:03}.keras")
+            agent.model.save(f"./models_0/snake_model_{episode + 1:03}.keras")
 
-        # agent.model.save(f"./models/snake_model_{episode + 1:03}.keras")
+        # agent.model.save(f"./models_0/snake_model_{episode + 1:03}.keras")
 
-        with open("./models/rewards.txt", "w", encoding="UTF-8") as f:
+        with open("models_0/rewards.txt", "w", encoding="UTF-8") as f:
             f.write(str(rewards))
 
 
